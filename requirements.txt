@@ -1,0 +1,37 @@
+# Core framework
+Django>=5.0,<5.3
+djangorestframework>=3.15
+django-cors-headers>=4.4
+dj-database-url>=2.2
+python-dotenv>=1.0
+
+# Database (Postgres optional; SQLite is the default for local dev)
+psycopg[binary]>=3.1
+
+# ML / DL
+torch>=2.2
+torchvision>=0.17
+timm>=1.0
+
+# Data / imaging
+numpy>=1.26
+pandas>=2.2
+opencv-python-headless>=4.9
+Pillow>=10.3
+scikit-learn>=1.4
+scikit-image>=0.22
+
+# Plotting (evaluation artifacts only, no GUI backend needed)
+matplotlib>=3.8
+seaborn>=0.13
+
+# Reports
+reportlab>=4.2
+
+# Testing
+pytest>=8.2
+pytest-django>=4.8
+
+# Misc
+tqdm>=4.66
+Pygments>=2.18

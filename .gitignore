@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+venv/
+env/
+.venv/
+
+# Django
+*.sqlite3
+/media/*
+!/media/mri/
+/media/mri/*
+!/media/mri/.gitkeep
+!/media/gradcam/
+/media/gradcam/*
+!/media/gradcam/.gitkeep
+!/media/attention/
+/media/attention/*
+!/media/attention/.gitkeep
+!/media/reports/
+/media/reports/*
+!/media/reports/.gitkeep
+!/media/profile_pics/
+/media/profile_pics/*
+!/media/profile_pics/.gitkeep
+!/media/case_photos/
+/media/case_photos/*
+!/media/case_photos/.gitkeep
+/staticfiles/
+db.sqlite3
+
+# Env / secrets
+.env
+*.log
+pip_install.log
+
+# ML artifacts
+ml/weights/*.pt
+ml/weights/*.pth
+!ml/weights/.gitkeep
+/ml/evaluation/artifacts/*
+!/ml/evaluation/artifacts/.gitkeep
+/dataset/*
+!/dataset/.gitkeep
+/logs/*.log
+!/logs/.gitkeep
+runs/
+mlruns/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/

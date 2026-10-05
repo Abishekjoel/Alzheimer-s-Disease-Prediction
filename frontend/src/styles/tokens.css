@@ -1,0 +1,108 @@
+/*
+ * Design tokens — raw CSS custom properties.
+ *
+ * Two layers on purpose: this file defines the *runtime* values (which
+ * differ between dark/light theme and can change without a rebuild),
+ * while index.css's `@theme` block maps each one into a Tailwind utility
+ * (e.g. `--color-bg: var(--bg)`), so `bg-bg`, `text-ink-muted`, etc. all
+ * stay reactive to the current [data-theme] attribute instead of being
+ * baked in at build time.
+ *
+ * Light is the primary, default experience (per explicit user direction);
+ * [data-theme="dark"] is an intentional second pass, not the default.
+ */
+
+:root,
+:root[data-theme="light"] {
+  /* Surfaces */
+  --bg: #f6f7fb;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-elevated: #f1f2f8;
+  --surface-overlay: #eceefa;
+
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.16);
+  --border-accent: rgba(109, 93, 252, 0.35);
+
+  --ink: #0b1020;
+  --ink-muted: #4b5268;
+  --ink-subtle: #7a8099;
+  --ink-inverse: #ffffff;
+
+  --primary: #6d5dfc;
+  --primary-hover: #5b48f0;
+  --primary-soft: rgba(109, 93, 252, 0.1);
+  --primary-strong: #5a46e6;
+  --secondary: #0ea5e9;
+  --secondary-soft: rgba(14, 165, 233, 0.1);
+
+  --success: #16a34a;
+  --success-soft: rgba(22, 163, 74, 0.1);
+  --warning: #d97706;
+  --warning-soft: rgba(217, 119, 6, 0.1);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px -8px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 24px 60px -16px rgba(15, 23, 42, 0.16);
+  --shadow-glow-primary: 0 0 0 1px rgba(109, 93, 252, 0.25), 0 12px 36px -10px rgba(109, 93, 252, 0.25);
+  --shadow-glow-secondary: 0 0 0 1px rgba(14, 165, 233, 0.2), 0 12px 36px -10px rgba(14, 165, 233, 0.2);
+
+  --grid-line: rgba(15, 23, 42, 0.05);
+}
+
+:root[data-theme="dark"] {
+  /* Surfaces */
+  --bg: #070a12;
+  --bg-elevated: #0b1020;
+  --surface: #101525;
+  --surface-elevated: #161c31;
+  --surface-overlay: #1a2138;
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-accent: rgba(139, 92, 246, 0.4);
+
+  /* Text ("ink") */
+  --ink: #f3f4fa;
+  --ink-muted: #a6adc3;
+  --ink-subtle: #6c7591;
+  --ink-inverse: #070a12;
+
+  /* Accents */
+  --primary: #7c5cff;
+  --primary-hover: #8f72ff;
+  --primary-soft: rgba(124, 92, 255, 0.14);
+  --primary-strong: #6d5dfc;
+  --secondary: #38bdf8;
+  --secondary-soft: rgba(56, 189, 248, 0.14);
+
+  /* Status */
+  --success: #2fbf80;
+  --success-soft: rgba(47, 191, 128, 0.14);
+  --warning: #f5a524;
+  --warning-soft: rgba(245, 165, 36, 0.14);
+  --danger: #f0554c;
+  --danger-soft: rgba(240, 85, 76, 0.14);
+
+  /* Shadows (dark-tuned) */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 8px 24px -8px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 24px 60px -16px rgba(0, 0, 0, 0.6);
+  --shadow-glow-primary: 0 0 0 1px rgba(124, 92, 255, 0.35), 0 12px 36px -10px rgba(124, 92, 255, 0.4);
+  --shadow-glow-secondary: 0 0 0 1px rgba(56, 189, 248, 0.3), 0 12px 36px -10px rgba(56, 189, 248, 0.35);
+
+  --grid-line: rgba(255, 255, 255, 0.05);
+}
+
+:root {
+  /* Motion */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 500ms;
+}
