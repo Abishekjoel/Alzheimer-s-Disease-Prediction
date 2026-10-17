@@ -39,15 +39,33 @@ pip_install.log
 # ML artifacts
 ml/weights/*.pt
 ml/weights/*.pth
+ml/weights/*_history.json
 !ml/weights/.gitkeep
 /ml/evaluation/artifacts/*
 !/ml/evaluation/artifacts/.gitkeep
 /dataset/*
 !/dataset/.gitkeep
+/dataset_balanced/
 /logs/*.log
 !/logs/.gitkeep
 runs/
 mlruns/
+
+# Stray raw dataset extractions (not the ml package itself)
+/ml/datasets/CN/
+/ml/datasets/MCI/
+/ml/datasets/AD/
+/ml/datasets/NonDemented/
+/ml/datasets/VeryMildDemented/
+/ml/datasets/MildDemented/
+/ml/datasets/ModerateDemented/
+
+# Sample MRI images: real dataset-derived files with an unconfirmed
+# redistribution license are kept local-only; synthetic/non-redistributable
+# images only would be safe to commit if added back deliberately.
+/sample_mri_scans/*.jpg
+/sample_mri_scans/*.jpeg
+/sample_mri_scans/*.png
 
 # Editors / OS
 .vscode/

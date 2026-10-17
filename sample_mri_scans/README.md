@@ -1,53 +1,49 @@
 # Sample MRI scans for manual testing
 
-These 6 images are **synthetic** (programmatically generated), not real
-patient scans and not sourced from any clinical dataset. They exist purely
-to exercise the app's pipeline end-to-end — upload → quality gate →
-inference → Grad-CAM / Swin attention → PDF report — with a visually
-varied, grayscale, MRI-slice-shaped set of test files.
+60 real MRI slice images, 20 per class, held out from training (from
+`dataset/test/`). Filenames state the true label (`CN_01.jpg` ...
+`CN_20.jpg`, same pattern for `MCI`/`AD`).
 
-## Why synthetic, not real images
+## Measured accuracy on this exact set
 
-A real, individually-licensed, single-slice brain MRI dataset with
-per-image ground-truth severity (e.g. OASIS, ADNI, or the Kaggle
-"Alzheimer's MRI" dataset) requires a data-use agreement or account and
-can't be redistributed into a project folder. Public-domain images found
-elsewhere (NIH/Wikimedia) turned out to be labeled anatomical diagrams or
-gross-pathology photos, not MRI scans — unsuitable for actually uploading
-through the app. Generating clearly-labeled synthetic test images avoided
-both problems and let every file be verified against the app's real
-quality gate before being handed to you (see below).
+Run through the currently active model (`Hybrid-CNN-Swin v0.1.0`,
+`ml/weights/balanced_v1_best.pt`) at the time these files were added:
 
-## What "mild / moderate / pronounced atrophy" means here
+| Class | Correct | Accuracy |
+|---|---|---|
+| CN | 17/20 | 85.0% |
+| MCI | 20/20 | 100% |
+| AD | 15/20 | 75.0% |
+| **Overall** | **52/60** | **86.7%** |
 
-Each image has a central dark "ventricle" region whose size increases
-across the set (with a thinning outer tissue ring to match) — enlarged
-ventricles are a real, textbook visual proxy for brain atrophy, used here
-only so the set looks visually progressive and gives Grad-CAM/attention
-real structure to respond to. **This is not a diagnosis and does not
-correspond to actual CN / MCI / AD ground truth.**
+**These numbers are higher than the model's real test-set accuracy**
+(69.8% overall across the full 960-image test set — see the model's
+`notes`/`metrics` in `ModelVersion`). That's because this 60-image subset
+is just the first 20 files per class in alphabetical order, not a random
+sample, so it isn't representative of overall performance. Use the full
+test-set numbers as the trustworthy figure; use this folder only for
+spot-checking the pipeline by hand.
 
-Because the shipped model is running in DEMO mode (untrained
-fusion/classifier weights — see `DEMO_MODE` in `.env` / `ml/config.py`),
-its predicted class for any of these images is not meaningfully tied to
-the synthetic "atrophy" pattern either. Don't read anything into which
-class it predicts for which file — that's expected demo behavior, not a
-bug. What's worth checking manually is that the pipeline *runs cleanly*
-for each one: quality gate passes, a prediction + probabilities +
-uncertainty come back, Grad-CAM and attention overlays render, and the
-PDF report generates correctly.
+Misclassified in this set, if you want to specifically test confusion
+cases:
+- `CN_10.jpg`, `CN_13.jpg`, `CN_16.jpg` → predicted MCI
+- `AD_05.jpg`, `AD_11.jpg`, `AD_13.jpg` → predicted MCI
+- `AD_10.jpg`, `AD_17.jpg` → predicted CN (confidently, which is the more
+  concerning error type — worth looking at manually)
 
-## Verified before delivery
+## Source and important caveats
 
-All 6 files were run through the app's actual
-`analysis.services.quality_check.assess_quality()` and passed with scores
-between 0.97 and 1.0 — they will clear the upload quality gate.
-
-| File | Simulated atrophy level |
-|---|---|
-| `sample_01_mild_atrophy_a.jpg` | Mild |
-| `sample_02_mild_atrophy_b.jpg` | Mild |
-| `sample_03_moderate_atrophy_a.jpg` | Moderate |
-| `sample_04_moderate_atrophy_b.jpg` | Moderate |
-| `sample_05_pronounced_atrophy_a.jpg` | Pronounced |
-| `sample_06_pronounced_atrophy_b.jpg` | Pronounced |
+- From the Kaggle "Alzheimer's Dataset (4 class of Images)" test split.
+  `NonDemented` → CN, `VeryMildDemented` → MCI, `MildDemented`/
+  `ModerateDemented` → AD.
+- **Not clinically sourced or verified** — labels come from the Kaggle
+  dataset's own categorization, not a clinical diagnosis.
+- **Known dataset caveat**: this Kaggle set is known to contain
+  augmented/near-duplicate copies of the same underlying scans. The
+  train/validation/test split was done by file, not by original source
+  scan, so some "held out" test images may be visually close to
+  something the model trained on. Treat all accuracy numbers here as an
+  optimistic case, not a guarantee of real-world accuracy.
+- The active model was trained for only 7 epochs on a class-balanced,
+  undersampled subset (2,072 training images) on CPU. It is **not
+  validated for clinical or diagnostic use**.
